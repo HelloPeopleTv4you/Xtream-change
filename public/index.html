@@ -1,0 +1,63 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fetch M3U8 Playlist</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        input[type="text"] {
+            padding: 10px;
+            font-size: 16px;
+            width: 300px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        pre {
+            background: #f4f4f4;
+            padding: 10px;
+            border: 1px solid #ccc;
+            width: 100%;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fetch M3U8 Playlist</h1>
+    <label for="id">Enter ID:</label>
+    <input type="text" id="id" placeholder="Enter an ID" />
+    <button onclick="fetchPlaylist()">Get Playlist</button>
+
+    <h2>Playlist Output:</h2>
+    <pre id="output"></pre>
+
+    <script>
+        async function fetchPlaylist() {
+            const id = document.getElementById('id').value.trim();
+            if (!id) {
+                alert("Please enter an ID.");
+                return;
+            }
+
+            // Construct the API URL
+            const url = `/api/fetchPlaylist?id=${id}`;
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('Failed to fetch playlist.');
+                const data = await response.text();
+                document.getElementById('output').textContent = data;
+            } catch (error) {
+                document.getElementById('output').textContent = `Error: ${error.message}`;
+            }
+        }
+    </script>
+</body>
+</html>
